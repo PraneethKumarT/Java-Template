@@ -9,27 +9,20 @@ jobs:
       - checkout
       - run:
           name: Calculate cache key
-          command: |-
+          command: |
             find . -name 'pom.xml' -o -name 'gradlew*' -o -name '*.gradle*' | \
                     sort | xargs cat > /tmp/CIRCLECI_CACHE_KEY
       - restore_cache:
-          key:
-            cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
-            # Build and test
-      - run: mvn test
-
+          key: cache-{{ checksum "/tmp/CIRCLECI_CACHE_KEY" }}
       - run:
           name: Compile and Run Tests
           command: mvn compile test
-
       - run:
           name: Run FindBugs Analysis
           command: mvn findbugs:check
-
-    - run:
+      - run:
           name: Format Code
           command: mvn com.coveo:fmt-maven-plugin:format
-          
       - run:
           command: mvn verify
       - store_test_results:
