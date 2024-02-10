@@ -19,6 +19,14 @@ jobs:
       - run: mvn test
 
       - run:
+          name: Compile and Run Tests
+          command: mvn compile test
+
+      - run:
+          name: Run FindBugs Analysis
+          command: mvn findbugs:check
+
+      - run:
           command: mvn verify
       - store_test_results:
           path: target/surefire-reports
