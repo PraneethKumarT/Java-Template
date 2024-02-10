@@ -26,6 +26,10 @@ jobs:
           name: Run FindBugs Analysis
           command: mvn findbugs:check
 
+    - run:
+          name: Format Code
+          command: mvn com.coveo:fmt-maven-plugin:format
+          
       - run:
           command: mvn verify
       - store_test_results:
